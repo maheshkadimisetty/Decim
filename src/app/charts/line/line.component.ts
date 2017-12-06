@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,OnInit  } from '@angular/core';
+import { HttpModule, Http } from '@angular/http';
 
 import * as shape from 'd3-shape';
 import * as d3 from 'd3';
@@ -10,7 +11,7 @@ import { single, multi, generateData } from '../../shared/chartData';
   templateUrl: './line.component.html',
   styleUrls: ['./line.component.scss']
 })
-export class LineComponent {
+export class LineComponent implements OnInit  {
 
   single: any[];
   multi: any[];
@@ -51,7 +52,7 @@ export class LineComponent {
   autoScale = true;
   timeline = false;
 
-  constructor() {
+  constructor(private http: Http) {
     Object.assign(this, {
       single,
       multi
@@ -80,6 +81,11 @@ export class LineComponent {
 
   onLegendLabelClick(entry) {
     console.log('Legend clicked', entry);
+  }
+  ngOnInit(): void {
+    this.http.get('https://api.github.com/users/seeschweiler').subscribe(data => {
+      console.log("this is for api testing:::"+data);
+    });
   }
 
 }
